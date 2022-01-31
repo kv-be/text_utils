@@ -1,0 +1,71 @@
+{
+	"name": "kv-utils",
+	"displayName": "kv_utils",
+	"description": "nice utilities while working with text files",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.61.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "kv-utils.allign_whatever",
+				"title": "Allign on whatever pattern (even reg ex)"
+			},
+			{
+				"command": "kv-utils.delete_spaces_right",
+				"title": "deletes all spaces right of the cursor till the first non space char"
+			}
+		],
+		"keybindings": [
+			{
+				"key": "ctrl+alt+d ctrl+alt+a",
+				"command":"kv-utils.allign_whatever"
+			},
+			{
+				"key": "ctrl+alt+d ctrl+alt+space",
+				"command":"kv-utils.delete_spaces_right"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "kv-utils.allign_whatever",
+					"group": "kv-utils@1"
+				},
+				{
+					"command": "kv-utils.delete_spaces_right",
+					"group": "kv-utils@1"
+				}
+			]
+		}
+	},
+
+	"capabilities": {
+		"hoverProvider": "true"
+	  },	
+
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "node ./test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.61.0",
+		"@types/glob": "^7.1.4",
+		"@types/mocha": "^9.0.0",
+		"@types/node": "14.x",
+		"eslint": "^7.32.0",
+		"glob": "^7.1.7",
+		"mocha": "^9.1.1",
+		"typescript": "^4.4.3",
+		"@vscode/test-electron": "^1.6.2"
+	}
+}
