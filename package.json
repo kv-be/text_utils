@@ -1,11 +1,17 @@
 {
-	"name": "kv-utils",
-	"displayName": "kv_utils",
-	"description": "nice utilities while working with text files",
-	"version": "0.0.1",
+	"name": "text-utils",
+	"displayName": "Text Utils",
+	"description": "Usefull utilities while working with text files",
+	"version": "1.0.0",
+	"publisher": "kv-be",
 	"engines": {
 		"vscode": "^1.61.0"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kv-be/text_utils.git"
+	},
+	"icon": "textutils.png",
 	"categories": [
 		"Other"
 	],
@@ -57,6 +63,11 @@
 		"pretest": "npm run lint",
 		"test": "node ./test/runTest.js"
 	},
+
+	"package-deps": [],
+	"providedServices": {},
+	"consumedServices": {},
+
 	"devDependencies": {
 		"@types/vscode": "^1.61.0",
 		"@types/glob": "^7.1.4",
