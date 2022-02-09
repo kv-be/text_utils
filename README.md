@@ -36,9 +36,7 @@ Copies all lines in a file not containing a given pattern (supporting regular ex
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
+Initial release of the text-utils
 
