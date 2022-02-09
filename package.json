@@ -22,33 +22,49 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "kv-utils.allign_whatever",
+				"command": "text-utils.allign_whatever",
 				"title": "Allign on whatever pattern (even reg ex)"
 			},
 			{
-				"command": "kv-utils.delete_spaces_right",
+				"command": "text-utils.copy_lines_containing",
+				"title": "Copies all lines containing a given (reg ex) pattern to the clipboard"
+			},
+			{
+				"command": "text-utils.copy_lines_not_containing",
+				"title": "Copies all lines NOT containing a given (reg ex) pattern to the clipboard"
+			},
+			{
+				"command": "text-utils.delete_spaces_right",
 				"title": "deletes all spaces right of the cursor till the first non space char"
 			}
 		],
 		"keybindings": [
 			{
 				"key": "ctrl+alt+d ctrl+alt+a",
-				"command":"kv-utils.allign_whatever"
+				"command":"text-utils.allign_whatever"
+			},
+			{
+				"key": "ctrl+alt+d ctrl+alt+c",
+				"command":"text-utils.copy_lines_containing"
+			},
+			{
+				"key": "ctrl+alt+d ctrl+alt+n",
+				"command":"text-utils.copy_lines_not_containing"
 			},
 			{
 				"key": "ctrl+alt+d ctrl+alt+space",
-				"command":"kv-utils.delete_spaces_right"
+				"command":"text-utils.delete_spaces_right"
 			}
 		],
 		"menus": {
 			"editor/context": [
 				{
-					"command": "kv-utils.allign_whatever",
-					"group": "kv-utils@1"
+					"command": "text-utils.allign_whatever",
+					"group": "text-utils@1"
 				},
 				{
-					"command": "kv-utils.delete_spaces_right",
-					"group": "kv-utils@1"
+					"command": "text-utils.delete_spaces_right",
+					"group": "text-utils@1"
 				}
 			]
 		}

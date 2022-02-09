@@ -86,6 +86,30 @@ function allign_whatever(pattern, text){
 	return nt
 }
 
+function line_contains(pattern, line, invert){
+	let max = 0
+	let pos = 0
+	if (pattern.startsWith('/')&&pattern.endsWith('/')){
+			pattern =pattern.substring(1, pattern.length-1)
+	}else{
+		pattern = pattern.replace("(", "\\(")
+		pattern = pattern.replace(")", "\\)")
+		pattern = pattern.replace(".", "\\.")
+		pattern = pattern.replace("[", "\\[")
+		pattern = pattern.replace("]", "\\]")
+		pattern = pattern.replace("?", "\\?")
+		pattern = pattern.replace("{", "\\{")
+		pattern = pattern.replace("}", "\\}")
+		pattern = pattern.replace("^", "\\^")
+		pattern = pattern.replace("$", "\\$")
+		pattern = pattern.replace("+", "\\+")
+		pattern = pattern.replace("*", "\\*")
+		pattern = pattern.replace("|", "\\|")
+	}
+	if (invert)	return (line.search(pattern)===-1)
+	else return (line.search(pattern)>-1)
+}
+
 function insert_separators(string, separator, size){
 	let hhex
 	let bbin
@@ -127,6 +151,33 @@ async function get_allignment_string() {
 		});
 	}
 
+}
+
+async function get_contain_string(invert) {
+    let type = await vscode.window.showInputBox({
+        value: '',
+        prompt: 'Give the pattern to search for',
+        placeHolder: 'can be also a reg ex',
+    });
+    if (!type) {
+        return;
+    }
+	const editor = vscode.window.activeTextEditor;
+
+	if (editor) {
+		const document = editor.document;
+		const selection = editor.selection;
+
+		// Get the word within the selection
+		let max = 0
+		let lines = []
+		const text = document.getText();
+		for (const l of text.split('\n')){
+			if (line_contains(type, l, invert)) lines.push(l)			
+		}
+		vscode.env.clipboard.writeText(lines.join('\n'));
+        vscode.window.showInformationMessage(`Lines ${lines.length} copied to clipboard`);
+	}
 }
 
 /**
@@ -206,7 +257,7 @@ function activate(context) {
     });	
 	context.subscriptions.push(hovering);
 
-	let disposable = vscode.commands.registerCommand('kv-utils.allign_whatever', function () {
+	let disposable = vscode.commands.registerCommand('text-utils.allign_whatever', function () {
 		// The code you place here will be executed every time your command is executed
 
 		// Display a message box to the user
@@ -215,7 +266,25 @@ function activate(context) {
 	});
 	context.subscriptions.push(disposable);
 
-	disposable = vscode.commands.registerCommand('kv-utils.delete_spaces_right', function () {
+	disposable = vscode.commands.registerCommand('text-utils.copy_lines_containing', function () {
+		// The code you place here will be executed every time your command is executed
+
+		// Display a message box to the user
+        const text = get_contain_string(false)
+ 
+	});
+	context.subscriptions.push(disposable);
+
+	disposable = vscode.commands.registerCommand('text-utils.copy_lines_not_containing', function () {
+		// The code you place here will be executed every time your command is executed
+
+		// Display a message box to the user
+        const text = get_contain_string(true)
+ 
+	});
+	context.subscriptions.push(disposable);
+
+	disposable = vscode.commands.registerCommand('text-utils.delete_spaces_right', function () {
 		// The code you place here will be executed every time your command is executed
 
 		// Display a message box to the user
