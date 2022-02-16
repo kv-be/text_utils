@@ -23,51 +23,98 @@
 		"commands": [
 			{
 				"command": "text-utils.allign_whatever",
-				"title": "Allign on whatever pattern (even reg ex)"
+				"title": "Allign on pattern..."
 			},
 			{
 				"command": "text-utils.copy_lines_containing",
-				"title": "Copies all lines containing a given (reg ex) pattern to the clipboard"
+				"title": "Copy lines with pattern..."
 			},
 			{
 				"command": "text-utils.copy_lines_not_containing",
-				"title": "Copies all lines NOT containing a given (reg ex) pattern to the clipboard"
+				"title": "Copy lines without pattern..."
+			},
+			{
+				"command": "text-utils.cut_lines_containing",
+				"title": "Cut lines with pattern..."
+			},
+			{
+				"command": "text-utils.cut_lines_not_containing",
+				"title": "Cut lines without pattern..."
 			},
 			{
 				"command": "text-utils.delete_spaces_right",
-				"title": "deletes all spaces right of the cursor till the first non space char"
+				"title": "Delete spaces to the right"
 			}
 		],
 		"keybindings": [
 			{
-				"key": "ctrl+alt+d ctrl+alt+a",
+				"key": "ctrl+alt+u a",
 				"command":"text-utils.allign_whatever"
 			},
 			{
-				"key": "ctrl+alt+d ctrl+alt+c",
+				"key": "ctrl+alt+u c",
 				"command":"text-utils.copy_lines_containing"
 			},
 			{
-				"key": "ctrl+alt+d ctrl+alt+n",
+				"key": "ctrl+alt+u shift C",
 				"command":"text-utils.copy_lines_not_containing"
 			},
 			{
-				"key": "ctrl+alt+d ctrl+alt+space",
+				"key": "ctrl+alt+u x",
+				"command":"text-utils.cut_lines_containing"
+			},
+			{
+				"key": "ctrl+alt+u shift c",
+				"command":"text-utils.cut_lines_not_containing"
+			},
+			{
+				"key": "ctrl+alt+u space",
 				"command":"text-utils.delete_spaces_right"
 			}
 		],
 		"menus": {
-			"editor/context": [
+			"textutils/main": [
 				{
 					"command": "text-utils.allign_whatever",
+					"group": "text-utils@1"
+				},
+				{
+					"command": "text-utils.copy_lines_containing",
+					"group": "text-utils@1"
+				},
+				{
+					"command": "text-utils.copy_lines_not_containing",
+					"group": "text-utils@1"
+				},
+				{
+					"command": "text-utils.cut_lines_containing",
+					"group": "text-utils@1"
+				},
+				{
+					"command": "text-utils.cut_lines_not_containing",
 					"group": "text-utils@1"
 				},
 				{
 					"command": "text-utils.delete_spaces_right",
 					"group": "text-utils@1"
 				}
+
+			],	
+			"editor/context": [
+				{
+					"submenu": "textutils/main",
+					"group": "text-utils@2"
+				}
+
 			]
-		}
+		},
+		"submenus": [
+			{
+				"id": "textutils/main",
+				"label": "Textutils"
+			}
+		]
+
 	},
 
 	"capabilities": {

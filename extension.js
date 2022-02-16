@@ -180,6 +180,49 @@ async function get_contain_string(invert) {
 	}
 }
 
+async function cut_line_contain_string(invert) {
+    let type = await vscode.window.showInputBox({
+        value: '',
+        prompt: 'Give the pattern to search for',
+        placeHolder: 'can be also a reg ex',
+    });
+    if (!type) {
+        return;
+    }
+	const editor = vscode.window.activeTextEditor;
+
+	if (editor) {
+		const document = editor.document;
+		const selection = editor.selection;
+
+		// Get the word within the selection
+		let max = 0
+		let lines = []
+		let new_lines = []
+		const text = document.getText();
+		for (const l of text.split('\n')){
+			if (!line_contains(type, l, invert)){
+				new_lines.push(l)			
+			} 
+			else lines.push(l)			
+		}
+		
+		const edit = new vscode.WorkspaceEdit();
+		let old_text = document.getText()
+		let new_text = new_lines.join('\n')
+	
+		let fullRange = new vscode.Range(
+			document.positionAt(0),
+			document.positionAt(old_text.length)
+		)
+		editor.edit(editBuilder => {
+			editBuilder.replace(fullRange, new_text);
+		})
+		vscode.env.clipboard.writeText(lines.join('\n'));
+        vscode.window.showInformationMessage(`Lines ${lines.length} copied to clipboard`);
+	}
+}
+
 /**
  * @param {vscode.ExtensionContext} context
  */
@@ -271,6 +314,24 @@ function activate(context) {
 
 		// Display a message box to the user
         const text = get_contain_string(false)
+ 
+	});
+	context.subscriptions.push(disposable);
+
+	disposable = vscode.commands.registerCommand('text-utils.cut_lines_not_containing', function () {
+		// The code you place here will be executed every time your command is executed
+
+		// Display a message box to the user
+        const text = cut_line_contain_string(true)
+ 
+	});
+	context.subscriptions.push(disposable);
+
+	disposable = vscode.commands.registerCommand('text-utils.cut_lines_containing', function () {
+		// The code you place here will be executed every time your command is executed
+
+		// Display a message box to the user
+        const text = cut_line_contain_string(false)
  
 	});
 	context.subscriptions.push(disposable);

@@ -34,6 +34,18 @@ Copies all lines in a file not containing a given pattern (supporting regular ex
 
 ![Demo](https://github.com/kv-be/text_utils/raw/master/resources/not_containing.gif)
 
+### Cut lines containing
+
+Cuts all lines in a file containing a given pattern (supporting regular expressions between / /)
+
+![Demo](https://github.com/kv-be/text_utils/raw/master/resources/cut_lines_containing.gif)
+
+### Cut lines not containing
+
+Cuts all lines in a file not containing a given pattern (supporting regular expressions between / /)
+
+![Demo](https://github.com/kv-be/text_utils/raw/master/resources/cut_lines_not_containing.gif)
+
 ## Release Notes
 
 ### 1.0.0
