@@ -42,6 +42,10 @@
 				"title": "Cut lines without pattern..."
 			},
 			{
+				"command": "text-utils.insert_counter",
+				"title": "Insert increment"
+			},
+			{
 				"command": "text-utils.delete_spaces_right",
 				"title": "Delete spaces to the right"
 			}
@@ -56,7 +60,7 @@
 				"command":"text-utils.copy_lines_containing"
 			},
 			{
-				"key": "ctrl+alt+u shift C",
+				"key": "ctrl+alt+u shift+c",
 				"command":"text-utils.copy_lines_not_containing"
 			},
 			{
@@ -64,8 +68,12 @@
 				"command":"text-utils.cut_lines_containing"
 			},
 			{
-				"key": "ctrl+alt+u shift c",
+				"key": "ctrl+alt+u shift+x",
 				"command":"text-utils.cut_lines_not_containing"
+			},
+			{
+				"key": "ctrl+alt+u i",
+				"command":"text-utils.insert_counter"
 			},
 			{
 				"key": "ctrl+alt+u space",
@@ -92,6 +100,10 @@
 				},
 				{
 					"command": "text-utils.cut_lines_not_containing",
+					"group": "text-utils@1"
+				},
+				{
+					"command": "text-utils.insert_counter",
 					"group": "text-utils@1"
 				},
 				{

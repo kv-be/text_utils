@@ -223,6 +223,50 @@ async function cut_line_contain_string(invert) {
 	}
 }
 
+async function insert_counter(){
+    let type = await vscode.window.showInputBox({
+        value: '0 1',
+        prompt: 'Enter <start value> <increment>',
+        placeHolder: 'can be also a reg ex',
+    });
+    if (!type) {
+        return;
+    }
+	let max = 0
+	const editor = vscode.window.activeTextEditor;
+
+	const start_val = parseInt(type.split(" ")[0])
+	const increment = parseInt(type.split(" ")[1])
+
+	if (editor) {
+		const document = editor.document;
+		const selections = editor.selections;
+		let org_text = document.getText().split("\n")
+		let new_text = org_text
+		let cnt = start_val
+		for (const s of selections){
+			const start = s.start.line  //.line and .char
+			let pos = s.start.character
+			if (org_text[start].trim().length > 1){
+				new_text[start] = org_text[start].substring(0,s.start.character) + `${cnt}`.padStart(`${selections.length+start_val}`.length, ' ') + org_text[start].substring(pos)
+				cnt = cnt + increment
+			}
+			else{
+				new_text[start] = org_text[start]
+			}
+		}
+		const result = new_text.join("\n")
+        editor.edit(builder => {
+            const currentText = editor.document.getText();
+            const definiteLastCharacter = currentText.length;
+            const range = new vscode.Range(0, 0, editor.document.lineCount, definiteLastCharacter);
+            builder.replace(range, result);
+        });
+	}
+
+}
+
+
 /**
  * @param {vscode.ExtensionContext} context
  */
@@ -350,6 +394,15 @@ function activate(context) {
 
 		// Display a message box to the user
         const text = delete_spaces_after()
+ 
+	});
+	context.subscriptions.push(disposable);
+
+	disposable = vscode.commands.registerCommand('text-utils.insert_counter', function () {
+		// The code you place here will be executed every time your command is executed
+
+		// Display a message box to the user
+        const text = insert_counter()
  
 	});
 	context.subscriptions.push(disposable);

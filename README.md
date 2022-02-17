@@ -46,6 +46,12 @@ Cuts all lines in a file not containing a given pattern (supporting regular expr
 
 ![Demo](https://github.com/kv-be/text_utils/raw/master/resources/cut_lines_not_containing.gif)
 
+### Insert increment
+
+Inserts incremental numbers on each line in case of multicursor selection
+
+![Demo](https://github.com/kv-be/text_utils/raw/master/resources/increment.gif)
+
 ## Release Notes
 
 ### 1.0.0
