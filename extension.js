@@ -229,6 +229,7 @@ async function insert_counter(){
         prompt: 'Enter <start value> <increment>',
         placeHolder: 'can be also a reg ex',
     });
+
     if (!type) {
         return;
     }
@@ -266,6 +267,62 @@ async function insert_counter(){
 
 }
 
+async function paste_column(repeating=false){
+	let max = 0
+	const editor = vscode.window.activeTextEditor;
+	let clipboard_content = await vscode.env.clipboard.readText(); 
+
+	if (editor) {
+		const document = editor.document;
+		const selections = editor.selections;
+		let org_text = document.getText().split("\n")
+		let new_text = org_text
+		let clips = clipboard_content.split("\n")
+		if (clips[clips.length-1] === "") clips = clips.slice(0,-1)
+		let clipindex = 0;
+		for (const s of selections){
+			const start = s.start.line  //.line and .char
+			let pos = s.start.character
+			if ( (org_text[start].trim().length > 1) && 
+			     (((clipindex < clips.length) && !repeating)  ||  (repeating)))  {
+				if (clipindex >= clips.length) clipindex = 0	 
+				new_text[start] = org_text[start].substring(0,s.start.character) + clips[clipindex]+org_text[start].substring(pos)
+				clipindex = clipindex+1
+			}
+			else{
+				new_text[start] = org_text[start]
+			}
+		}
+		const result = new_text.join("\n")
+        editor.edit(builder => {
+            const currentText = editor.document.getText();
+            const definiteLastCharacter = currentText.length;
+            const range = new vscode.Range(0, 0, editor.document.lineCount, definiteLastCharacter);
+            builder.replace(range, result);
+        });
+	}
+
+}
+
+let myStatusBarItem
+
+function updateStatusBarItem() {
+	const n = getNumberOfSelectedLines(vscode.window.activeTextEditor);
+	if (n > 0) {
+		myStatusBarItem.text = `$(megaphone) ${n} line(s) selected`;
+		myStatusBarItem.show();
+	} else {
+		myStatusBarItem.hide();
+	}
+}
+
+function getNumberOfSelectedLines(editor) {
+	let lines = 0;
+	if (editor) {
+		lines = editor.selections.reduce((prev, curr) => prev + (curr.end.line - curr.start.line), 0);
+	}
+	return lines;
+}
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -342,6 +399,29 @@ function activate(context) {
                 });
         }
     });	
+
+
+	// register a command that is invoked when the status bar
+	// item is selected
+	const myCommandId = 'textutils.showSelectionCount';
+	context.subscriptions.push(vscode.commands.registerCommand(myCommandId, () => {
+		const n = getNumberOfSelectedLines(vscode.window.activeTextEditor);
+	}));
+
+	// create a new status bar item that we can now manage
+	myStatusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+	myStatusBarItem.command = myCommandId;
+	context.subscriptions.push(myStatusBarItem);
+
+	// register some listener that make sure the status bar 
+	// item always up-to-date
+	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(updateStatusBarItem));
+	context.subscriptions.push(vscode.window.onDidChangeTextEditorSelection(updateStatusBarItem));
+
+	// update status bar item once at start
+	updateStatusBarItem();
+
+
 	context.subscriptions.push(hovering);
 
 	let disposable = vscode.commands.registerCommand('text-utils.allign_whatever', function () {
@@ -406,6 +486,25 @@ function activate(context) {
  
 	});
 	context.subscriptions.push(disposable);
+	
+	disposable = vscode.commands.registerCommand('text-utils.paste_column', function () {
+		// The code you place here will be executed every time your command is executed
+
+		// Display a message box to the user
+        const text = paste_column()
+ 
+	});
+	context.subscriptions.push(disposable);
+	
+	disposable = vscode.commands.registerCommand('text-utils.paste_column_repeat', function () {
+		// The code you place here will be executed every time your command is executed
+
+		// Display a message box to the user
+        const text = paste_column(true)
+ 
+	});
+	context.subscriptions.push(disposable);
+	
 
 }
 

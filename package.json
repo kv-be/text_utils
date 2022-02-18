@@ -46,6 +46,14 @@
 				"title": "Insert increment"
 			},
 			{
+				"command": "text-utils.paste_column",
+				"title": "paste column"
+			},
+			{
+				"command": "text-utils.paste_column_repeat",
+				"title": "paste column_repeat"
+			},
+			{
 				"command": "text-utils.delete_spaces_right",
 				"title": "Delete spaces to the right"
 			}
@@ -76,6 +84,14 @@
 				"command":"text-utils.insert_counter"
 			},
 			{
+				"key": "ctrl+alt+u v",
+				"command":"text-utils.paste_column"
+			},
+			{
+				"key": "ctrl+alt+u shift+v",
+				"command":"text-utils.paste_column_repeat"
+			},
+			{
 				"key": "ctrl+alt+u space",
 				"command":"text-utils.delete_spaces_right"
 			}
@@ -104,6 +120,14 @@
 				},
 				{
 					"command": "text-utils.insert_counter",
+					"group": "text-utils@1"
+				},
+				{
+					"command": "text-utils.paste_column",
+					"group": "text-utils@1"
+				},
+				{
+					"command": "text-utils.paste_column_repeat",
 					"group": "text-utils@1"
 				},
 				{
