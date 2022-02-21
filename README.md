@@ -52,6 +52,15 @@ Inserts incremental numbers on each line in case of multicursor selection
 
 ![Demo](https://github.com/kv-be/text_utils/raw/master/resources/increment.gif)
 
+### Paste column (repeated)
+The native vertical paste of vscode is very restrictive. If your selection is not exactly the same size as your clipboard, the behaviour is not very usefull. This command makes things easier:
+- if your clipboard contents is bigger than your multicursor selection, only the beginning of the clipboard is pasted.
+- if your clipboard is smaller than the multicursor selection, there are 2 options:
+  - only copy the entire clipboard once and leave the other lines unaffected (paste column)
+  - repeat the clipboard contents until the selection is filled (paste column repeat)
+
+![Demo](https://github.com/kv-be/text_utils/raw/master/resources/paste_column.gif)
+
 ## Release Notes
 
 ### 1.0.0
